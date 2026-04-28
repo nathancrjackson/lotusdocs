@@ -2,7 +2,12 @@
 <div id="doc-nav" class="d-print-none">
 {{ if or .Prev .Next -}}
 	<!-- https://www.feliciano.tech/blog/custom-sort-hugo-single-pages/ -->
-	{{ $pages := where .Site.RegularPages "Section" .Section -}}
+    {{ $pages := "" }}
+    {{ if eq .Site.Params.docs.navScopeCurrentSection true }}
+        {{ $pages = .CurrentSection.RegularPages }}
+    {{ else }}
+        {{ $pages = where .Site.RegularPages "Section" .Section }}
+    {{ end }}
     <div class="row flex-xl-nowrap {{ if .Next }}{{ else }}flex-row-reverse{{ end }}">
 	{{ with $pages.Next . -}}
         <div class="col-sm-6 pt-2 doc-next">
